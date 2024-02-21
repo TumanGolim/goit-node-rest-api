@@ -1,62 +1,75 @@
-[
-  {
-    id: "AeHIrLTr6JkxGE6SN-0Rw",
-    name: "Allen Raymond",
-    email: "nulla.ante@vestibul.co.uk",
-    phone: "(992) 914-3792",
-  },
-  {
-    id: "qdggE76Jtbfd9eWJHrssH",
-    name: "Chaim Lewis",
-    email: "dui.in@egetlacus.ca",
-    phone: "(294) 840-6685",
-  },
-  {
-    id: "drsAJ4SHPYqZeG-83QTVW",
-    name: "Kennedy Lane",
-    email: "mattis.Cras@nonenimMauris.net",
-    phone: "(542) 451-7038",
-  },
-  {
-    id: "vza2RIzNGIwutCVCs4mCL",
-    name: "Wylie Pope",
-    email: "est@utquamvel.net",
-    phone: "(692) 802-2949",
-  },
-  {
-    id: "05olLMgyVQdWRwgKfg5J6",
-    name: "Cyrus Jackson",
-    email: "nibh@semsempererat.com",
-    phone: "(501) 472-5218",
-  },
-  {
-    id: "1DEXoP8AuCGYc1YgoQ6hw",
-    name: "Abbot Franks",
-    email: "scelerisque@magnis.org",
-    phone: "(186) 568-3720",
-  },
-  {
-    id: "Z5sbDlS7pCzNsnAHLtDJd",
-    name: "Reuben Henry",
-    email: "pharetra.ut@dictum.co.uk",
-    phone: "(715) 598-5792",
-  },
-  {
-    id: "C9sjBfCo4UJCWjzBnOtxl",
-    name: "Simon Morton",
-    email: "dui.Fusce.diam@Donec.com",
-    phone: "(233) 738-2360",
-  },
-  {
-    id: "e6ywwRe4jcqxXfCZOj_1e",
-    name: "Thomas Lucas",
-    email: "nec@Nulla.com",
-    phone: "(704) 398-7993",
-  },
-  {
-    id: "rsKkOQUi80UsgVPCcLZZW",
-    name: "Alec Howard",
-    email: "Donec.elementum@scelerisquescelerisquedui.net",
-    phone: "(748) 206-2688",
-  },
-];
+import { fileURLToPath } from "url";
+import fs from "fs/promises";
+import path from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const contactsFilePath = path.resolve(__dirname, "../db/contacts.json");
+
+export const listContacts = async () => {
+  try {
+    const data = await fs.readFile(contactsFilePath, "utf8");
+    const contacts = JSON.parse(data);
+    return contacts;
+  } catch (error) {
+    throw new Error("Unable to list contacts");
+  }
+};
+
+export const getContactById = async (id) => {
+  try {
+    const contacts = await listContacts();
+    const contact = contacts.find((c) => c.id === id);
+    if (!contact) {
+      throw new Error("Contact not found");
+    }
+    return contact;
+  } catch (error) {
+    throw new Error("Unable to get contact by id");
+  }
+};
+
+export const addContact = async (newContact) => {
+  try {
+    const contacts = await listContacts();
+    const updatedContacts = [...contacts, newContact];
+    await fs.writeFile(
+      contactsFilePath,
+      JSON.stringify(updatedContacts, null, 2)
+    );
+    return newContact;
+  } catch (error) {
+    throw new Error("Unable to add contact");
+  }
+};
+
+export const removeContact = async (id) => {
+  try {
+    const contacts = await listContacts();
+    const updatedContacts = contacts.filter((contact) => contact.id !== id);
+    await fs.writeFile(
+      contactsFilePath,
+      JSON.stringify(updatedContacts, null, 2)
+    );
+    return { id };
+  } catch (error) {
+    throw new Error("Unable to remove contact");
+  }
+};
+
+export const updateContact = async (id, updatedFields) => {
+  try {
+    const contacts = await listContacts();
+    const index = contacts.findIndex((contact) => contact.id === id);
+    if (index === -1) {
+      throw new Error("Contact not found");
+    }
+    const updatedContact = { ...contacts[index], ...updatedFields };
+    contacts[index] = updatedContact;
+    await fs.writeFile(contactsFilePath, JSON.stringify(contacts, null, 2));
+    return updatedContact;
+  } catch (error) {
+    throw new Error("Unable to update contact");
+  }
+};
