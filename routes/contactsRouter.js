@@ -7,16 +7,12 @@ import {
   updateContact,
 } from "../controllers/contactsControllers.js";
 
-const contactsRouter = express.Router();
+const router = express.Router();
 
-contactsRouter.get("/", getAllContacts);
+router.get("/", getAllContacts);
+router.get("/:id", getOneContact);
+router.delete("/:id", deleteContact);
+router.post("/", createContact);
+router.put("/:id", updateContact);
 
-contactsRouter.get("/:id", getOneContact);
-
-contactsRouter.delete("/:id", deleteContact);
-
-contactsRouter.post("/", createContact);
-
-contactsRouter.put("/:id", updateContact);
-
-export default contactsRouter;
+export default router;
