@@ -1,2 +1,2 @@
-git rm --cached node_modules
-git rm --cached package-lock.json
+/node_modules
+/package-lock.json
