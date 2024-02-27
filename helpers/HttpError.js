@@ -6,7 +6,10 @@ const messageList = {
   409: "Conflict",
 };
 
-const HttpError = (status, message = messageList[status]) => {
+const HttpError = (
+  status,
+  message = messageList[status] || "Internal Server Error"
+) => {
   const error = new Error(message);
   error.status = status;
   return error;
