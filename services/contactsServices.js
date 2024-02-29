@@ -1,13 +1,15 @@
 import mongoose from "mongoose";
 
 const uri =
-  "mongodb+srv://bredihav:Iukrh9i286w4nPGS@cluster0.aoqgxcm.mongodb.net/";
+  "mongodb+srv://bredihav:GXlxO0yYEATseFfD@cluster0.aoqgxcm.mongodb.net/";
+
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 const db = mongoose.connection;
+
 db.on("error", console.error.bind(console, "Connection error:"));
 db.once("open", () => {
   console.log("Database connection successful");
@@ -86,5 +88,21 @@ export const updateContact = async (id, updatedFields) => {
     return updatedContact;
   } catch (error) {
     throw new Error("Unable to update contact");
+  }
+};
+
+export const updateStatusContact = async (contactId, favorite) => {
+  try {
+    const updatedContact = await Contact.findByIdAndUpdate(
+      contactId,
+      { favorite },
+      { new: true }
+    );
+    if (!updatedContact) {
+      throw new Error("Contact not found");
+    }
+    return updatedContact;
+  } catch (error) {
+    throw new Error("Unable to update contact status");
   }
 };
