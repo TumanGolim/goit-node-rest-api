@@ -1,7 +1,7 @@
-// authMiddleware.js
+// middlewares/authMiddleware.js
 
 import jwt from "jsonwebtoken";
-import { User } from "../services/contactsServices.js";
+import { User } from "../models/userModel.js";
 import HttpError from "../helpers/HttpError.js";
 
 const authenticateToken = async (req, res, next) => {
