@@ -1,38 +1,5 @@
-import mongoose from "mongoose";
-
-const uri =
-  "mongodb+srv://bredihav:GXlxO0yYEATseFfD@cluster0.aoqgxcm.mongodb.net/";
-
-mongoose.connect(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-const db = mongoose.connection;
-
-db.on("error", console.error.bind(console, "Connection error:"));
-db.once("open", () => {
-  console.log("Database connection successful");
-});
-
-const contactSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Set name for contact"],
-  },
-  email: {
-    type: String,
-  },
-  phone: {
-    type: String,
-  },
-  favorite: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-const Contact = mongoose.model("Contact", contactSchema);
+import HttpError from "../helpers/HttpError.js";
+import Contact from "../models/contactModel.js";
 
 export const listContacts = async () => {
   try {
