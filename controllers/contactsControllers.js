@@ -1,11 +1,13 @@
-import contactsService from "../services/contactsServices.js";
+const contactsServices = require("../services/contactsServices");
 
-export const getAllContacts = (req, res) => {};
-
-export const getOneContact = (req, res) => {};
-
-export const deleteContact = (req, res) => {};
-
-export const createContact = (req, res) => {};
-
-export const updateContact = (req, res) => {};
+exports.updateAvatar = async (req, res, next) => {
+  try {
+    const avatarURL = await contactsServices.uploadAvatar(
+      req.file,
+      req.user.id
+    );
+    res.json({ avatarURL });
+  } catch (error) {
+    next(error);
+  }
+};
