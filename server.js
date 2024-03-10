@@ -8,7 +8,8 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const uri = "your-mongodb-uri-here";
+const uri =
+  "mongodb+srv://bredihav:44wAnhoKeOy7MrH9@cluster0.aoqgxcm.mongodb.net/<your-database-name>?retryWrites=true&w=majority";
 
 app.use(express.json());
 

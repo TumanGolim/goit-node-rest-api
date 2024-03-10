@@ -15,10 +15,11 @@ const userSchema = new mongoose.Schema({
     enum: ["starter", "pro", "business"],
     default: "starter",
   },
-  avatarURL: {
+  token: {
     type: String,
-    default: "/avatars/default-avatar.jpg", 
+    default: null,
   },
+  avatarURL: String, 
 });
 
 const User = mongoose.model("User", userSchema);

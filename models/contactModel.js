@@ -15,9 +15,9 @@ const contactSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  avatarURL: String, 
 });
 
-const Contact = mongoose.model("Contact", contactSchema);
+const Contact =
+  mongoose.models.Contact || mongoose.model("Contact", contactSchema);
 
 export default Contact;
